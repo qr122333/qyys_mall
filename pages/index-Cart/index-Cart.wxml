@@ -1,0 +1,52 @@
+<!--pages/index-Cart/index-Cart.wxml 购物车-->
+<!-- 编辑 -->
+<view class='compile'>
+  <view bindtap='compileSite' class='compileSite'>
+    <image src='../../img/Profile.png'></image>
+    {{compileSite}}
+  </view>
+  <view bindtap='compileText' class='compileText' style='{{compileIf?"":"color:#fa4f52;"}}'>{{compileText}}</view>
+</view>
+
+<!-- 购物车商品 -->
+<scroll-view class='ShowCart' scroll-y='true'>
+  <view class='goods' wx:for='{{goodsAttr}}' wx:key='{{*this}}'>
+    <checkbox-group bindchange='goodsClose' data-index='{{index}}'>
+      <label class='goodsLabel' wx:if='{{compileIf}}'><checkbox checked='{{item.goodsClose}}'></checkbox></label>
+      <label class='goodsLabel' wx:if='{{!compileIf}}'><checkbox data-index='{{index}}'></checkbox></label>
+    </checkbox-group>
+    <view class='goodsImg'><image src='{{item.goodsImg}}'></image></view>
+    <view class='goodsData'>
+      <view class='goodsName'>{{item.goodsName}}</view>
+      <view class='goodsPrice'>￥{{item.goodsPrice}}</view>
+      <view class='goodsNum' wx:if='{{compileIf}}'>
+        <view class='goodsNumMinus' data-index='{{index}}' bindtap='goodsNumMinus'>-</view>
+        <view class='goodsNumNumber'>{{item.goodsNum}}</view>
+        <view class='goodsNumAdd' data-index='{{index}}' bindtap='goodsNumAdd'>+</view>
+      </view>
+    </view>
+  </view>
+  <view wx:if='{{anonymous}}' class='anonymous'>
+    <image src='../../img/anonymous.png'></image>
+    <text>暂无记录</text>
+  </view>
+</scroll-view>
+
+<!-- 结算删除操作 -->
+<view class='operation'>
+  <!-- 购物车 -->
+  <view class='operationView' wx:if='{{compileIf}}'>
+    <view class='checkAll'><label><checkbox value='checkAllTrue' checked='{{checkAllTrues}}'/>全选</label></view>
+    <view class='total'>
+      合计
+      <text>￥{{totalPrice}}</text>
+    </view>
+    <view class='operationBtn'>去结算(0)</view>
+  </view>
+
+  <!-- 删除列表 -->
+  <view class='operationView' wx:if='{{!compileIf}}'>
+    <view class='checkAll'><label><checkbox value='checkAllFalse' />全选</label></view>
+    <view class='operationBtn'>删除</view>
+  </view>
+</view>
